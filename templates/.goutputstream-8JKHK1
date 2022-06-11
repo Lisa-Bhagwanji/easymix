@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feed Calculator</title>
+  <!--  <link rel="stylesheet" type="text/css"
+    href="{{ url_for('static', filename='calculator.css') }}"/> -->
+</head>
+
+<body>
+	
+	<h1> Python chicken Feed Calculator</h1>
+	<form method="post" action='/calc_result' id="calculator_form">
+		
+		<label for="total">Total Kgs of feed to produce</label>
+		<input type"text" name="total" id="total">
+		<br/>
+		<label for="breed">Chicken Breed</label>
+		<select id="breed" name="breed"> FIX HERE
+			<option value="layers"> Layers</option>
+			<option value="broiler> Broilers</option>-->
+		</select>
+		<br/>
+		<!-- <label for="feedtype">feed type and age</label>
+		<input type"text" name="feedtype" id="feedtype">
+		<br/> -->
+		<br/>
+		<input type="submit" value="Calculate" style="color: green;">
+		<input type="submit" value="Cancel" style="color: red;">
+	</form>
+	{% block content %}
+<!--
+	  {% if calc_success %}
+-->
+        <br/>
+	<p>Quantity of ingredients needed for {{breed}} feed of {{input1}} Kg:</p>
+        <p>Whole maize: {{wmaize}}kg</p>
+	<p>Soya : {{soya}}kg</p>
+	<p>Fish meal : {{fishm}}kg</p>
+	<p>Maize bran : {{maizeb}}kg</p>
+	<p>Lime stone : {{limes}}kg</p>
+	
+	 {% endif %}
+	{% endblock %} 
+        
+</body>
+
+
+
+</html>
+

@@ -1,0 +1,200 @@
+{% extends "navbarbase.html" %}
+
+{% block title %} EasyMix-Home{% endblock %}
+
+{% block content %}
+   <div class="item">
+        <div class="slider-caption h2slider">
+                  <div class="container">
+                     <strong>Chicken Feed  <span>Calculator</span></strong>
+                     <h1>EasyMix</h1>
+                     <p> Ease in producing your own feed<strong>Get accurate results </strong></p>
+                     <a href="" class="active">Register</a> <a href="">Login</a> 
+                  </div>
+               </div>
+              <img src="{{url_for('static', filename='images/Slider A.jpg')}}" class="imgnav" >
+           </div>
+      <!--About Section Start-->
+         <section class="home2-about wf100 p100 gallery">
+            <div class="container">
+               <div class="row">
+                  <div class="col-md-5">
+                     <div class="video-img">  <i class="fas fa-play"></i></a> <img src="{{url_for('static', filename='images/Slider C.jpg')}}" alt=""> </div>
+                  </div>
+                  <div class="col-md-7">
+                     <div class="h2-about-txt">
+                        <h3>About EasyMix</h3>
+                        <h2>Reduce chicken feed costs while satisfying precise nutritional requirements.</h2>
+               <p> Chicken feed is a major aspect in the poultry industry accounting to 60%-70% of costs. For local farmers it is less costly to formulate their own feed.
+                            EasyMix relieves the famrer of performing tedious feed calculations involved in manual methods of determining feed volumes and additives. Ensuring adequate nutritional requirements are satisfied in the chicken's diet. 
+                            </p>
+                        <a class="aboutus" href="#">More About us</a> 
+                     </div>
+                  </div>
+               </div>
+            </div>
+            
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </section>
+         <!--About Section End--> 
+      <!--Poultry Farming Tips Start-->
+         <section class="h2-news wf100 p80">
+            <div class="container">
+               <div class="row">
+                  <div class="col-md-6">
+                     <div class="section-title-2">
+                       
+                        <h2>Chicken Feeding Tips</h2>
+                     </div>
+                  </div>
+  
+               <div class="row">
+                  <div class="col-md-6">
+                     <div class="blog-post-large">
+                        <div class="post-thumb"></i></a> <img src="{{url_for('static', filename='images/Slider B.jpg')}}" alt=""></div>
+                        <div class="post-txt">
+                           <ul class="post-meta">
+                             
+                             
+                           </ul>
+                           <h5><a href="#">Poor quality feed leads to slow growth, low egg production and 
+                              liable to diseases and even death.</a></h5>
+                        </div>
+                     </div>
+                  </div>
+                  <div class="col-md-6">
+                     <!--Blog Small Post Start-->
+                     <div class="blog-small-post">
+                        <div class="post-thumb"><img src="{{url_for('static', filename='images/Slider A.jpg')}}" alt=""> </div>
+                        <div class="post-txt">
+                           <span class="pdate"> <i class="fas fa-calendar-alt"></i> 04 March, 2022</span>
+                           <h5><a href="#">Ingredients</a></h5>
+                           <p>Purchase high quality locally available ingredients.Common ingredients in feed making include: 
+                              whole maize, soya, fishmeal, maize bran and sunflower seed.</p>
+                           <a href="" class="rm">Read More</a> 
+                        </div>
+                     </div>
+                     <!--Blog Small Post End--> 
+                     <!--Blog Small Post Start-->
+                     <div class="blog-small-post">
+                        <div class="post-thumb"><img src="{{url_for('static', filename= 'images/Slider C.jpg')}}" alt=""> </div>
+                        <div class="post-txt">
+                           <span class="pdate"> <i class="fas fa-calendar-alt"></i> 04 March, 2022</span>
+                           <h5><a href="#">How much to feed</a></h5>
+                           <p>DCP is the basic nutritional requirement for feed preparation for animals and birds. A farmer 
+                              needs to know the crude protein content of each ingredient to calculate an approriate
+                               feed formula suiting specific chicken breeds.</p>
+                           <a href="" class="rm">Read More</a> 
+                        </div>
+                     </div>
+                     <!--Blog Small Post End--> 
+                  </div>
+               </div>
+            </div>
+         </section>
+         <!--Poultry Farming Tips End--> 
+     <!--Why easymix + Facts Start-->
+         <section class="why-ecova wf100">
+            <div class="container">
+               <div class="row">
+                  <div class="col-md-12">
+                     <h1> Why EasyMix!</h1>
+                     <p>EasyMix is a great digital tool for a poultry farmer to easily calculate feed in a way that ensures adequate nutritional requirements, 
+                        targeting daily dietary components. 
+                     </p>
+                     <a href="/signup" class="cus">Signup to Join!</a> 
+                  </div>
+               </div>
+            </div>
+         </section>
+         <!--Why easymix + Facts End--> 
+
+ 
+<!--
+ <style>
+      body, html {
+  height: 100%;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+.bg-img {
+  /* The image used */
+  background-image: url({{ url_for('static',filename = '/images/Slider A.jpg')}});
+  height: 100%;
+
+  /* Control the height of the image */
+  min-height: 380px;
+
+  /* Center and scale the image nicely */
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  position: relative;
+}
+
+/* Add styles to the form container */
+.container {
+  position: absolute;
+  right: 0;
+  margin: 20px;
+  max-width: 300px;
+  padding: 16px;
+  background-color: white;
+}
+
+/* Full-width input fields */
+  input[type=text], input[type=password] {
+  width: 100%;
+  padding: 15px;
+  margin: 5px 0 22px 0;
+  border: none;
+  background: #f1f1f1;
+}
+
+input[type=text]:focus, input[type=password]:focus {
+  background-color: #ddd;
+  outline: none;
+}
+
+/* Set a style for the submit button */
+.btn {
+  background-color: #04AA6D;
+  color: white;
+  padding: 16px 20px;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+  opacity: 0.9;
+}
+
+.btn:hover {
+  opacity: 1;
+}
+</style>
+     <div class="bg-img">
+  <form action="/login" class="container">
+    <h1>Login</h1>
+
+    <label for="email"><b>Email</b></label>
+    <input type="text" placeholder="Enter Email" name="email" required>
+
+    <label for="psw"><b>Password</b></label>
+    <input type="password" placeholder="Enter Password" name="psw" required>
+
+    <button type="submit" class="btn">Login</button>
+    <a href="/signup">
+     <p>Don't have an account? Signup</p>
+     </a>
+  </form>
+  
+  
+</div>-->
+{% endblock %}
+
+ 

@@ -1,0 +1,26 @@
+{% extends 'navbarbase.html' %}
+{% block title %} demo results {% endblock %}
+{% block content %}
+<h1>demo results </h1>
+
+
+
+        <br/>
+	<p>You you will need for {{input1}}Kg of demoFeed:</p>
+	<p>ufa: {{ufa}}kg</p>
+	<p>Soya : {{soya}}kg</p>
+	
+
+
+<a href="/demo" style="display: block; margin: auto">
+	<button>back</button>
+</a>
+<a href="/motor" style="display: block; margin: auto">
+	<button>Start feed dispenser</button>
+</a>
+<form method="post" action=''id="calculator_form">
+<!--<button style="display: block; margin: auto"  >start mixer</button>-->
+</form>
+
+
+{% endblock %}

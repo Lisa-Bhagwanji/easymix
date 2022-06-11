@@ -1,0 +1,72 @@
+{% extends "navbarbase.html" %}
+{% block title %} |Displaying Chicken coop| {% endblock %}
+{% block content %}
+<h1> Your Coops list: </h1>
+
+<form>
+{% for coops in data %}
+<br/>
+
+<div class="card">
+  <div class="card-body">
+    <h5 class="card-title">{{coops.name}}</h5>
+    <p class="card-text">ID Chicken coop : {{coops.id}}</p>
+    <p class="card-text">Date addeed : {{coops.date_added}}</p>
+    <p class="card-text">Breed : {{coops.breed}}</p>
+    <p class="card-text">Number of chickens : {{coops.number}}</p>
+    <p class="card-text">Age : {{coops.age}}</p>
+    <a href="#" class="btn btn-primary">Go somewhere</a>
+  </div>
+</div>
+
+
+
+<!--
+<div style="padding: 10px; border: #ff851b solid 1px;">
+    <p>
+        Name of Chicken coop : {{coops.name}}
+    </p>
+    <p>
+        ID Chicken coop : {{coops.id}}
+    </p>
+     <p>
+        Date added: {{coops.date_added}}
+    </p>
+    <p>
+        Breed of chicken in Coop {{coops.name}} : {{coops.breed}}
+    </p>
+    <p>
+        Number of chickens in this coop :  <p class="card-text">ID Chicken coop : {{coops.id}}</p>
+    </p>
+<p>
+     Age of chickens in coop: {{coops.age}}
+-->
+     
+     
+<!--
+     #provide the 1st date in YYYY,MM,DD format
+date1 = date(1999,12,23)
+#provide the 1st date in YYYY,MM,DD format
+date2 = date(2001,5,11)
+    
+#getting the result, abs = absolute value
+#(date1-date2).days gives an integer number of dates
+days = abs(date1-date2).days
+#caculating and printing the weeks, // = floor division operator
+print (days//7
+-->
+     
+<!--
+    </p>
+<a href="/" class="btn btn-outline-dark" role="button">
+			    Create Feed Formula
+</a>
+
+    <br/><br/><br/>
+</div>
+-->
+<br/>
+{% endfor %}
+</form>
+<br/>
+{% endblock %}

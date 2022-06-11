@@ -1,0 +1,25 @@
+<!-- will need to add url for layers feed calc result, also add route in main.py -->
+<!-- 3 options for each type of layer feed, each option will have a separate html-->
+{% extends 'base.html' %}
+{% block content %}<!-- add menu on easyindex.html and redirect user upon selection -->
+	<h1> {% block title %} layers_feed_menu {%endblock %}</h1>
+	
+		 <h1>Layers Python Flask Calculator</h1>
+    <form method="post" action="{{ url_for('layersfeed_result') }}" id="layers_calculator_form">
+        <label for="weight">Feed weight to produce:</label>
+        <input type="text" name="weight" id="weight">
+        <br/>
+        
+        <label for="layeroptions">Layer feed types</label>
+        <select id="layeroptions" name="layeroptions">
+            <option value="layerschickmash">layers chick </option>
+            <option value="layersgrowers">Layers growers</option>
+            <option value="layersall">Layers all purpose</option>
+            
+        </select>
+        <br/> <br/>
+        <input type="submit" value="Calculate" style="color:green;"/>
+        <input type="reset"  value="cancel" style="color: red;"/>
+    </form>
+    
+	{% endblock %}

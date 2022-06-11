@@ -1,0 +1,19 @@
+{% extends "navbarbase.html" %}
+{% block title %} |Displaying Chicken coop| {% endblock %}
+{% block content %}
+<h1> Your Coops PREVIEW list: </h1>
+
+<form>
+{% for coops in data %}
+<br/>
+<div style="padding: 10px; border: #ff851b solid 1px;">
+    <p>Name of Chicken coop : {{coops.name}}</p>
+   
+    
+    <p>ID Chicken coop : {{coops.id}}</p>
+</div>
+
+     <!-- buttons to fully view coop or cancel-->
+{% endfor %}
+</form>
+{% endblock %}

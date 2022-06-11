@@ -1,0 +1,30 @@
+{% extends 'navbarbase.html' %}
+
+{% block title %} demo {% endblock %}	
+{% block content %}
+<div class="bg1">
+<h3 style="text-align:center">Demo calculator</h3>
+	<form method="post" action='/demo_calc' id="calculator_form">
+		
+		<p class="double">
+		<label for="total">Total Kgs of feed to produce</label>
+		<input type "text" name="total" id="total">
+		<br/>
+		<label for="feed" > Select demo Feed </label>
+		<select id="feed" name="feed">
+			<option value="demo"> demo  </option>
+			
+		</select>
+		<br/>
+		<br/>
+		<input type="submit" value="Calculate" style="color: green;">
+		
+		</p>
+                <br/>
+                <br/>
+        
+                
+		<!--<input type="submit" value="Cancel" style="color: red;"> -->
+	</form>
+</div>
+{% endblock %}

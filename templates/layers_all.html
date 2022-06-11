@@ -1,0 +1,26 @@
+{% extends 'navbarbase.html' %}
+{% block title %} user history{% endblock %}
+{% block content %}
+<h1> Layers 1 feed calculator All Users Past Data</h1>
+
+<form>
+{% for recipe in data %}
+<br/>
+<div style="padding: 10px; border: #ff851b solid 1px;">
+    <p>
+        amount entered : {{recipe.amount_entered}}
+
+
+    </p>
+    <p>
+        feed : {{recipe.feed}}
+    </p>
+    <p>
+        result : {{recipe.result}}
+    </p>
+
+</div>
+
+{% endfor %}
+</form>
+{% endblock %}

@@ -1,0 +1,45 @@
+{% extends 'navbarbase.html' %}
+{% block title %} layers results {% endblock %}
+{% block content %}
+<div class="bg1">
+    <h3 style="text-align:center"> For this recipe, you will need:</h3>
+    <div class="tbl">
+		<table style="">
+		   <tr>
+		    <th>Ingredient</th>
+		    <th>Weight</th>
+		   <!-- <th>Cost</th>-->
+		  </tr>
+		  <tr>
+		    <td> Whole maize </td>
+		    <td>{{wmaize}}kg</td>
+		  </tr>
+		  <tr>
+		    <td> Fishmeal </td>
+		    <td>{{fishm}}kg</td>
+		  </tr>
+		  <tr>
+		    <td> Maize bran </td>
+		    <td>{{maizeb}}kg</td>
+		  </tr>
+		  <tr>
+		    <td> Fishmeal </td>
+		    <td>{{fishm}}kg</td>
+		  </tr>
+		  <tr>
+		    <td> Lime stone</td>
+		    <td>{{limes}}kg</td>
+		  </tr>
+		    </table>
+		    </div>	
+		    <a href="/user/results" class="btn btn-outline-dark btn-block" role="button">
+			    My Previous calculations
+		    </a>
+
+		    <a href="/layers" class="btn btn-outline-info btn-block" role="button">
+			    Return to calculator
+		    </a>
+	    
+    
+</div>	
+{% endblock %}

@@ -1,0 +1,85 @@
+	{% extends 'navbarbase.html' %}
+
+{% block title %} layers page {% endblock %}
+	<h1 div class= "maintext" > Chicken Feed Calculator</h1>
+	</div>
+{% block content %}
+<div class="bg1">
+<h3 style="text-align:center">Layers Feed Calculator</h3>
+	<form method="post" action='/calc_result' id="calculator_form" >
+		<p class="double">
+			
+		<label for="total">Total Kgs of feed to produce</label>
+		<input type "text" name="total" id="total">
+		<br/>
+		<label for="feed"> Layers </label>
+		<select id="feed" name="feed">
+		<option value="chickmash"> Chick mash</option>
+		<option value="layers1"> Layers all purpose </option>
+		</select>
+		<br/>
+		<br/>
+		<!--<input type="submit" value="Calculate" style="color: green;">
+		<input type="reset" value="Cancel" style="color: red;"> -->
+		<input class="btn btn-outline-warning btn-block" type="submit"  value="Calculate Feed"> 
+		<input class="btn btn-outline-danger btn-block" type="reset"  value="Cancel"> 
+		
+		</p>
+       
+	</form>
+</div>
+{% endblock %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--<h1>Layers Feed Calculator Menu</h1>
+<form action = "/layers.html" method="POST"
+		<label for="layersfeed"> Please select type of layers feed: </label>
+		<select id="layersfeed" name="layersfeed">
+			<option value=""> select </option>
+			<option value="layers1"> Layers chick mash</option> <!-- add redirect to layers.html code-->
+			<!--<option value="layers2"> Layers </option>
+			<!-- add input required code, only continue after input has been made -->
+		<!--</select>
+		<br/>
+		<br/>
+                <br/>
+		<input type="submit" value="Proceed to calculate" style="color: green;">
+		<input type="submit" value="Cancel" style="color: red;">
+	</form> -->
