@@ -1,0 +1,17 @@
+{% extends "navbarbase.html" %}
+
+{% block title %} EasyMix-Add Tips {% endblock %}
+
+{% block content %}
+
+
+<form method = "POST" action="/tips/add">
+	
+  <p>Title: <input type="text" name = "title" </p>
+  
+  <p>Content: <input type="text" name = "content"</p>
+  
+  <p><input type = "submit" value = "Submit" /></p>
+</form>
+
+{% endblock %}

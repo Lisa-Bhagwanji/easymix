@@ -18,3 +18,9 @@ class CoopsSchema(ma.Schema):
     class Meta:
         #fields to expose 
         fields = ("id", "name", "age", "breed", "number")
+        
+        
+class TipsSchema(ma.Schema):
+    class Meta:
+        #fields to expose 
+        fields = ("id", "title", "content", "date_added")

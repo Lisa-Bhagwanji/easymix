@@ -1,0 +1,21 @@
+{% extends "navbarbase.html" %}
+
+{% block title %} EasyMix-View All Tips{% endblock %}
+
+{% block content %}
+<h3>Tips List:</h3><hr>
+<p>Below is a list of tips you have added</p>
+<form method="GET" action="/tips/display">
+	{% for tips in data %}
+	<p>Tip ID : {{tips.id}}</p><hr>
+	<p>Tip Title : {{tips.title}}</p><hr>
+	<p>Content: {{tips.content}}</p><hr>
+	{% endfor %}
+
+
+</form>
+
+
+
+{% endblock %}
+

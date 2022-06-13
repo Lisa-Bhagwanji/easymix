@@ -7,26 +7,27 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>EasyMix Admin Dasboard </title>
     <!-- plugins:css -->
-    <link rel="stylesheet" href="{{url_for('static', filename = 'assets/vendors/mdi/css/materialdesignicons.min.css')}}">
-    <link rel="stylesheet" href="{{url_for('static',filename = 'assets/vendors/css/vendor.bundle.base.css')}}">
+    <link href="{{url_for('static', filename = 'assets/vendors/mdi/css/materialdesignicons.min.css')}}" rel="stylesheet">
+    <link href="{{url_for('static',filename = 'assets/vendors/css/vendor.bundle.base.css')}}" rel="stylesheet">
     <!-- endinject -->
     <!-- Plugin css for this page -->
-    <link rel="stylesheet" href="{{url_for('static', filename = 'assets/vendors/jvectormap/jquery-jvectormap.css')}}">
-    <link rel="stylesheet" href="{{url_for('static', filename = 'assets/vendors/flag-icon-css/css/flag-icon.min.css')}}">
-    <link rel="stylesheet" href="{{url_for('static', filename = 'assets/vendors/owl-carousel-2/owl.carousel.min.css')}}">
-    <link rel="stylesheet" href="{{url_for('static', filename = 'assets/vendors/owl-carousel-2/owl.theme.default.min.css')}}">
+    <link href="{{url_for('static', filename = 'assets/vendors/jvectormap/jquery-jvectormap.css')}}" rel="stylesheet">
+    <link href="{{url_for('static', filename = 'assets/vendors/flag-icon-css/css/flag-icon.min.css')}}" rel="stylesheet">
+    <link href="{{url_for('static', filename = 'assets/vendors/owl-carousel-2/owl.carousel.min.css')}}" rel="stylesheet">
+    <link href="{{url_for('static', filename = 'assets/vendors/owl-carousel-2/owl.theme.default.min.css')}}" rel="stylesheet">
     <!-- End plugin css for this page -->
     <!-- inject:css -->
     <!-- endinject -->
     <!-- Layout styles -->
-    <link rel="stylesheet" href="{{url_for('static', filename = 'assets/css/style.css')}}">
+    <link href="{{url_for('static', filename = 'assets/css/style.css')}}" rel="stylesheet">
     <!-- End layout styles -->
-    <link rel="stylesheet"  "{{url_for('static', filename = 'assets/images/EasyMix-logo.png')}}" rel="stylesheet">
+    <link "{{url_for('static', filename = 'assets/images/logoEm2.svg')}}" rel="stylesheet">
   </head>
   <header>
     <style type="text/css">
       body{
   background:#eee;
+ 
   font-family: 'Raleway', sans-serif;
   }
   .main-part{
@@ -97,29 +98,41 @@
   background-color:#8E44AD;
   }
   .cpanel-skyblue .card-content-part{
-  background-color:#803D9B;
+  background-color:#803D9B;                             
   }
+  .sidebar .nav .nav-item .nav-link .menu-title {
+    color: white;
+    display: inline-block;
+    font-size: larger;
+    line-height: 1;
+    vertical-align: middle;
+}
+.sidebar .nav .nav-item .nav-link .menu-title {
+    color: white;
+    display: inline-block;
+    font-size: larger;
+    font-weight: 600;
+    line-height: 1;
+    vertical-align: middle;
+}
   </style>
   </header>
   <body>
     <div class="container-scroller">
       <!-- partial:partials/_sidebar.html -->
       <nav class="sidebar sidebar-offcanvas" id="sidebar">
-        <div class="sidebar-brand-wrapper d-none d-lg-flex align-items-center justify-content-center fixed-top">
-          <a class="sidebar-brand brand-logo" href="index.html"><img src="assets/images/logodp.svg" alt="logo" /></a>
-          <a class="sidebar-brand brand-logo-mini" href="index.html"><img src="assets/images/E" alt="logo" /></a>
-        </div>
+        
         <ul class="nav">
           <li class="nav-item profile">
             <div class="profile-desc">
               <div class="profile-pic">
                 <div class="count-indicator">
-                  <img class="img-xs rounded-circle " src="assets/images/Dp.jpg" alt="">
+                  <img class="img-xs rounded-circle " src="{{url_for('static', filename='assets/images/Dp.jpg')}}" alt="">
                   <span class="count bg-success"></span>
                 </div>
                 <div class="profile-name">
-                  <h2 class="mb-0 font-weight-normal">Admin</h2>
-                  <span>Lisa Bhagwanji</span>
+                  <h2>Admin</h2>
+                 
                 </div>
               </div>
               
@@ -128,7 +141,7 @@
             <span class="nav-link">Navigation</span>
           </li>
           <li class="nav-item menu-items">
-            <a class="nav-link" href="index.html">
+            <a class="nav-link" href="#">
               <span class="menu-icon">
                 <i class="mdi mdi-speedometer"></i>
               </span>
@@ -145,14 +158,15 @@
             </a>
             <div class="collapse" id="ui-basic">
               <ul class="nav flex-column sub-menu">
-                <li class="nav-item"> <a class="nav-link" href="pages/ui-features/buttons.html">View users</a></li>
-                <li class="nav-item"> <a class="nav-link" href="pages/ui-features/dropdowns.html">Update user details</a></li>
-                <li class="nav-item"> <a class="nav-link" href="pages/ui-features/typography.html">Delete users</a></li>
+                <li class="nav-item"> <a class="nav-link" href="#">View users</a></li>
+                <li class="nav-item"> <a class="nav-link" href="#">Update user details</a></li>
+                
               </ul>
             </div>
+
           </li>
-          <li class="nav-item menu-items">
-            <a class="nav-link" href="pages/forms/basic_elements.html">
+ <!--        <li class="nav-item menu-items">
+            <a class="nav-link" href="#">
               <span class="menu-icon">
                 <i class="mdi mdi-playlist-play"></i>
               </span>
@@ -160,16 +174,17 @@
               </span>
             </a>
           </li>
+-->
           <li class="nav-item menu-items">
-            <a class="nav-link" href="pages/tables/basic-table.html">
+            <a class="nav-link" href="#">
               <span class="menu-icon">
                 <i class="mdi mdi-table-large"></i>
               </span>
-              <span class="menu-title">Chicken Feeding Tips</span>
+              <span class="menu-title">Feeding Tips</span>
             </a>
           </li>
           <li class="nav-item menu-items">
-            <a class="nav-link" href="pages/charts/chartjs.html">
+            <a class="nav-link" href="#">
               <span class="menu-icon">
                 <i class="mdi mdi-chart-bar"></i>
               </span>
@@ -190,7 +205,7 @@
         <!-- partial:partials/_navbar.html -->
         <nav class="navbar p-0 fixed-top d-flex flex-row">
           <div class="navbar-brand-wrapper d-flex d-lg-none align-items-center justify-content-center">
-            <a class="navbar-brand brand-logo-mini" href="index.html"><img src="assets/images/logo-mini.svg" alt="logo" /></a>
+            <a class="navbar-brand brand-logo-mini" href="#"><img src="{{url_for('static', filename ='assets/images/logo-mini.svg')}}" alt="logo" /></a>
           </div>
           <div class="navbar-menu-wrapper flex-grow d-flex align-items-stretch">
             <button class="navbar-toggler navbar-toggler align-self-center" type="button" data-toggle="minimize">
@@ -198,9 +213,7 @@
             </button>
             <ul class="navbar-nav w-100">
               <li class="nav-item w-100">
-                <form class="nav-link mt-2 mt-md-0 d-none d-lg-flex search">
-                  <input type="text" class="form-control" placeholder="Search">
-                </form>
+                
               </li>
             </ul>
             <ul class="navbar-nav navbar-nav-right">
@@ -209,37 +222,14 @@
                
              
               <li class="nav-item dropdown">
-                <a class="nav-link" id="profileDropdown" href="#" data-toggle="dropdown">
+                <a class="nav-link" href="#">
                   <div class="navbar-profile">
-                    <img class="img-xs rounded-circle" src="assets/images/Dp.jpg" alt="">
-                    <h3 class="mb-0 d-none d-sm-block navbar-profile-name">Administrator</h3>
-                    <i class="mdi mdi-menu-down d-none d-sm-block"></i>
+                    <img class="img-xs rounded-circle" src="{{url_for('static', filename ='assets/images/Dp.jpg')}}" alt="">
+                    <h3 class="mb-0 d-none d-sm-block navbar-profile-name">LogOut</h3>
+                    
                   </div>
                 </a>
-                <div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list" aria-labelledby="profileDropdown">
-                  <h6 class="p-3 mb-0">Profile</h6>
-                  <div class="dropdown-divider"></div>
-                  <a class="dropdown-item preview-item">
-                    <div class="preview-thumbnail">
-                      <div class="preview-icon bg-dark rounded-circle">
-                        <i class="mdi mdi-settings text-success"></i>
-                      </div>
-                    </div>
-                    <div class="preview-item-content">
-                      <p class="preview-subject mb-1">Manage Account</p>
-                    </div>
-                  </a>
-                  <div class="dropdown-divider"></div>
-                  <a class="dropdown-item preview-item">
-                    <div class="preview-thumbnail">
-                      <div class="preview-icon bg-dark rounded-circle">
-                        <i class="mdi mdi-logout text-danger"></i>
-                      </div>
-                    </div>
-                    <div class="preview-item-content">
-                      <p class="preview-subject mb-1">Log out</p>
-                    </div>
-                  </a>
+                
                  
               </li>
             </ul>
@@ -254,10 +244,10 @@
 
       <div class="cpanel">
       <div class="icon-part">
-      <img src="assets/images/icons/kyc.png"></i><br>
+      <img src="{{url_for('static', filename='assets/images/icons/kyc.png')}}"></i><br>
       </div>
       <div class="card-content-part">
-      <h3 href="#">Manage Account </h3>
+      <h3 href="#">Manage Accounts </h3>
     </div>
   </div>
 
@@ -266,10 +256,10 @@
       
       <div class="cpanel cpanel-red">
       <div class="icon-part">
-     <img src="assets/images/icons/hen.png"></i><br>
+     <img src="{{url_for('static', filename='assets/images/icons/hen.png')}}"></i><br>
     </div>
     <div class="card-content-part">
-   <h3> <a href="#">Mange Poultry Farm </a></h3>
+   <h3> <a href="#">remove card</a></h3>
  
     </div>
     </div>
@@ -277,17 +267,17 @@
      
       <div class="cpanel cpanel-orange">
       <div class="icon-part">
-     <img src="assets/images/icons/lightbulb.png"></i><br>
+     <img src="{{url_for('static', filename='assets/images/icons/lightbulb.png')}}"></i><br>
     </div>
     <div class="card-content-part">
-      <h3> <a href="#">Farming Tips </a></h3>
+      <h3> <a href="#">Feeding Tips </a></h3>
       
       </div>
       </div>
    
    <div class="cpanel cpanel-blue">
     <div class="icon-part">
-   <img src="assets/images/icons/status.png"></i><br>
+   <img src="{{url_for('static', filename='assets/images/icons/status.png')}}"></i><br>
   </div>
   <div class="card-content-part">
     <h3> <a href="#">Formulator Status</a></h3>
@@ -298,7 +288,7 @@
       
       <div class="cpanel cpanel-green">
         <div class="icon-part">
-       <img src="assets/images/icons/report.png"></i><br>
+       <img src="{{url_for('static', filename='assets/images/icons/report.png')}}"></i><br>
       </div>
       <div class="card-content-part">
         <h3> <a href="#">Reports</a></h3>
@@ -326,24 +316,25 @@
     </div>
     <!-- container-scroller -->
     <!-- plugins:js -->
-    <script src="assets/vendors/js/vendor.bundle.base.js"></script>
+    <script type="text/javascript" src="{{url_for('static', filename='assets/vendors/js/vendor.bundle.base.js')}}"></script>
+    
     <!-- endinject -->
     <!-- Plugin js for this page -->
-    <script src="assets/vendors/chart.js/Chart.min.js"></script>
-    <script src="assets/vendors/progressbar.js/progressbar.min.js"></script>
-    <script src="assets/vendors/jvectormap/jquery-jvectormap.min.js"></script>
-    <script src="assets/vendors/jvectormap/jquery-jvectormap-world-mill-en.js"></script>
-    <script src="assets/vendors/owl-carousel-2/owl.carousel.min.js"></script>
+    <script type="text/javascript" src="{{url_for('static', filename='assets/vendors/chart.js/Chart.min.js')}}"></script>
+    <script type="text/javascript" src="{{url_for('static', filename='assets/vendors/progressbar.js/progressbar.min.js')}}"></script>
+    <script type="text/javascript" src="{{url_for('static', filename='assets/vendors/jvectormap/jquery-jvectormap.min.js')}}"></script>
+    <script type="text/javascript" src="{{url_for('static', filename='assets/vendors/jvectormap/jquery-jvectormap-world-mill-en.js')}}"></script>
+    <script type="text/javascript" src="{{url_for('static', filename='assets/vendors/owl-carousel-2/owl.carousel.min.js')}}"></script>
     <!-- End plugin js for this page -->
     <!-- inject:js -->
-    <script src="assets/js/off-canvas.js"></script>
-    <script src="assets/js/hoverable-collapse.js"></script>
-    <script src="assets/js/misc.js"></script>
-    <script src="assets/js/settings.js"></script>
-    <script src="assets/js/todolist.js"></script>
+    <script type="text/javascript" src="{{url_for('static', filename='assets/js/off-canvas.js')}}"></script>
+    <script type="text/javascript" src="{{url_for('static', filename='assets/js/hoverable-collapse.js')}}"></script>
+    <script type="text/javascript" src="{{url_for('static', filename='assets/js/misc.js')}}"></script>
+    <script type="text/javascript" src="{{url_for('static', filename='assets/js/settings.js')}}"></script>
+    <script type="text/javascript" src="{{url_for('static', filename='assets/js/todolist.js')}}"></script>
     <!-- endinject -->
     <!-- Custom js for this page -->
-    <script src="assets/js/dashboard.js"></script>
+    <script type="text/javascript" src="{{url_for('static', filename='assets/js/dashboard.js')}}"></script>
     <!-- End custom js for this page -->
   </body>
 </html>

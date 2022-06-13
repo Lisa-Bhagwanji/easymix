@@ -19,10 +19,9 @@ class Recipe(db.Model):
     user_id = db.Column(db.Integer,
                         db.ForeignKey('users.id', ondelete='CASCADE'),
                         nullable=False)
-    coop_id = db.Column(db.Integer,
-                        db.ForeignKey('coops.id', ondelete='CASCADE'),
-                        nullable=False)
-# revised class Recipe for all feed calculations  
+
+    
+# revised class Reccipe is for calulating using coop details 
 class FeedRecipe(db.Model):
     __tablename__ = 'feedrecipe'
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
@@ -99,12 +98,18 @@ class Coops(db.Model):
     user_id = db.Column(db.Integer,
                          db.ForeignKey('users.id', ondelete='CASCADE'),
                         nullable=False)
-    recipe_object = db.relationship('Recipe', backref='coops', lazy=True, uselist=True,
-                                    cascade="all,delete")
-    
+ 
     
     #date
     
    #age= (date_added-current_date)/7 + age
+class Tips(db.Model):
+    __tablename__='tips'
+    id = db.Column(db.Integer,primary_key=True, autoincrement=True)
+    title = db.Column(db.String(100))
+    content = db.Column(db.String(100))
+    date_added =  db.Column(db.DateTime, default= datetime.now)
     
+    
+
   

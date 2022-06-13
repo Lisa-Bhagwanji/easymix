@@ -7,10 +7,10 @@
      
 {% with messages = get_flashed_messages() %}
 {% if messages %}
-    <div class="notification is-danger">
+    <div class="notification is-success">
         {{ messages[0] }}. Go to <a href="{{ url_for('login') }}">login page</a>.
     </div>
-{% endif %}
+{% endif %}     
 {% endwith %}
 <form method="POST" action="/signup">
         <form method="POST" action="/signup">
@@ -38,7 +38,8 @@
                 </div>
             </div>
 
-            <button class="button is-block is-info is-large is-fullwidth">Sign Up</button>
+            <button class="button is-block is-info is-large is-fullwidth">Sign Up</button><hr>
+            <a class="button is-block is-info is-large is-fullwidth"  href="/farmer_dashboard">Return</a>
         </form>
     </div>
 </div>

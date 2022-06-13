@@ -14,13 +14,16 @@ import time
 
 GPIO.setmode(GPIO.BOARD)
 
-from .models import  db, Users, Recipe, Coops
-from .schema import RecipeSchema, ProfileSchema, CoopsSchema, ma
+from .models import  db, Users, Recipe, Coops, Tips
+from .schema import RecipeSchema, ProfileSchema, CoopsSchema, TipsSchema, ma
 
 app = Flask(__name__, template_folder='templates')
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///easymixdb.sqlite'
 app.config['SECRET_KEY'] = 'x.@&F{jW3*}$8&pN+p#ot>n&QS$?'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
+
+
 
 db.init_app(app)
 migrate = Migrate(app, db)
@@ -50,15 +53,15 @@ def profile():
 @app.route('/updatemyprofile')
 @login_required
 def updprofile():
-     return render_template('updatemyprofile.html'
-      )
-@app.route('/myprofile/update/<int:id>/', methods=['GET','POST'])
+     return render_template('updatemyprofile.html')
+    
+@app.route('/myprofile/update', methods=['POST'])
 @login_required
-def update_myprofile(id):
-    #form = User
+def update_myprofile():
+    form = User
     #form = UserForm
- if request.method == "POST":
-    name_to_update = Users.query.get_or_404('id')
+
+    name_to_update = Users.query.get_or_404(id=current_user.id)
    
     name_to_update.username = request.form['username']
     name_to_update.email= request.form['email']
@@ -262,46 +265,50 @@ def admin_db():
 #     lime = ''
 #     salt = ''
 #     premix = ''
-@app.route('/feedresults')
-@login_required
-def getfeed_results():
-    return render_template('feedresults.html')
-                           #id=current_coop.id)
 
 
-@app.route('/feed/results', methods = ['POST','GET'])
-def feed_result():
-    wmaize = ''
-    soya = ''
-    fishm = ''
-    maizeb = ''
-    limes = ''
 
-
-    #calculate current age
-        days = request.form['days']
-        
-      
-       
-
-     if breed == "layers":
-         if age
-         daily_consumption ={{coop.number}}*150
-         total_consumption= daily_consumption*{{days to feed}}
-         wmaize = (0.5 * input1)
-         soya = (0.2 * input1)
-         fishm = (0.1 * input1)
-         maizeb = (0.1 * input1)
-         limes = (0.1 * input1)
-         return render_template('')
-        
-        if age
-        daily_consumption ={{coop.number}}*170
-        wmaize = (0.3 * input1)
-        soya = (0.2 * input1)
-        fishm = (0.2 * input1)
-        maizeb = (0.3 * input1)
-      
+#the commented section below, was supposed to calculate feed using coops
+# @app.route('/feedresults')
+# @login_required
+# def getfeed_results():
+#     return render_template('feedresults.html')
+#                            #id=current_coop.id)
+# 
+# 
+# @app.route('/feed/results', methods = ['POST','GET'])
+# def feed_result():
+#     wmaize = ''
+#     soya = ''
+#     fishm = ''
+#     maizeb = ''
+#     limes = ''
+# 
+# 
+#     #calculate current age
+#     days = request.form['days']
+#         
+#       
+#        
+# 
+#      if breed == "layers":
+#          if age
+#          daily_consumption ={{coop.number}}*150
+#          total_consumption= daily_consumption*{{days to feed}}
+#          wmaize = (0.5 * input1)
+#          soya = (0.2 * input1)
+#          fishm = (0.1 * input1)
+#          maizeb = (0.1 * input1)
+#          limes = (0.1 * input1)
+#          return render_template('')
+#         
+#         if age
+#         daily_consumption ={{coop.number}}*170
+#         wmaize = (0.3 * input1)
+#         soya = (0.2 * input1)
+#         fishm = (0.2 * input1)
+#         maizeb = (0.3 * input1)
+#       
 
 
 @app.route('/calc_result', methods=['POST', 'GET'])
@@ -353,16 +360,18 @@ def demo_calc():
     ufa='' #feed A
     soya=''#feed B
     
+    
     amount_input=request.form['total']
     feed=request.form['feed']
     input1=float(amount_input)
     if feed =="demo":
-        ufa = (0.5*input1)     #ufa,soya,fishmeal answer will be stored in db, create a demo db with fields for these three
+        ufa = (0.3*input1)     #ufa,soya,fishmeal answer will be stored in db, create a demo db with fields for these three
         soya = (0.3*input1)
-        #fishmeal = (0.2*input1)
+        fishmeal = (0.4*input1)
 
     motor1 = [7,11,13,15] #first motor pins defined
     motor2 = [29,31,33,35]
+    motor3 = [40,38,36,32]
     
     
     #for motor 1 ufa
@@ -400,6 +409,18 @@ def demo_calc():
         for pin in range(4):
             GPIO.output(motor2[pin], halfstep_seq[halfstep][pin])
             time.sleep(0.001)
+            
+    for pin in motor3:
+        GPIO.setup(pin, GPIO.OUT)
+        GPIO.output(pin, 0)
+
+    
+    for i in range(int(512*fishmeal)): #rotating for feed A
+      for halfstep in range(8):
+        for pin in range(4):
+            GPIO.output(motor3[pin], halfstep_seq[halfstep][pin])
+            time.sleep(0.001)
+            
     GPIO.cleanup()
     
     #motor2 end 
@@ -409,7 +430,7 @@ def demo_calc():
             input1=input1, feed=feed,
             ufa=ufa, soya=soya)
     
-    
+  
    
 @app.route('/user/results', methods=['POST', 'GET'])
 @login_required
@@ -423,6 +444,52 @@ def get_past_calc_result():
         'layers_all.html',
         data=recipe_data
     )
+
+#TIPS Start
+@app.route('/tips')
+#@login_required
+def tips():
+    return render_template('tips.html')
+
+@app.route('/addtips')
+def add_tip():
+    return render_template('addtips.html')
+
+@app.route('/viewalltips')
+def viewall_tips():
+    return render_template('viewalltips.html')
+# tips.html is frm to add tips
+#display tips on index
+#create crud page
+
+@app.route('/tips/add', methods=['POST'])
+def addtips():
+    #add form validation data reqired
+        title = request.form.get('title')
+        content = request.form.get('content')
+    
+        new_tips = Tips(title=title, content=content)
+    
+        #push to database
+        
+        db.session.add(new_tips)
+        db.session.commit()
+        flash('Tip has been added succesfully')
+        return redirect('/addtips')
+    
+
+@app.route('/tips/display', methods=['GET'])
+def dislaytipslist():
+    tips_schema = TipsSchema()
+    
+    all_tips = Tips.query.all()
+    tips_data = tips_schema.dump(all_tips)
+    
+    return render_template(
+        'viewalltips.html',
+        data=tips_data
+        )
+#TIPS END
 
 def create_app():
     db.init_app(app)
