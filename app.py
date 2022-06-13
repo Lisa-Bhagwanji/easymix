@@ -138,16 +138,17 @@ def addcoop_post():
     # TODO : the farmer can only input numbers
     age = int(request.form.get('age'))
     breed = request.form.get('breed')
-    number_of_chickens = int(request.form.get('number'))
-    new_coop = Coops(name=name, breed=breed, age=age, number_of_chicks=number_of_chickens, user_id=current_user.id)
+    number_of_chickens = int(request.form.get('number_of_chickens'))
+    new_coop = Coops(name=name, breed=breed, age=age, number_of_chickens=number_of_chickens, user_id=current_user.id)
     db.session.add(new_coop)
     db.session.commit()
     flash('Coop added successfully')
     return redirect('/coop/add_days_to_feed/' + str(new_coop.id))
 
 
-@app.route('/coop/add_days_to_feed/<int:id_>', methods=['GET', 'POST'])
-def add_days_coops(id_):
+@app.route('/coop/add_days_to_feed/<int:id>', methods=['GET', 'POST'])
+#def add_days_coops(id_):
+def add_days_coops(id):    
     # id  --> auto
     # name  --> supplied
     # age --> supplied
@@ -158,10 +159,13 @@ def add_days_coops(id_):
     # date_added --> auto
     # user_id --> auto
     # recipe_object  --> auto
-
-    coop_instance = Coops.query.filter_by(id=id_)
+    
+    coop_instance = Coops.query.filter_by(id=id).one_or_none()
     # logic to calculate available number of days to feed
     available_days = 0
+    
+    
+    #logic to calculate current age
     if coop_instance.breed == "layers":
 
         if coop_instance.age >= 0 <= 28:
@@ -178,7 +182,7 @@ def add_days_coops(id_):
     # get the available days for adding feed
     if flask.request.method == 'GET':
 
-        return render_template('add_coop', data={"available_days": available_days})
+        return render_template('number_of_days_to_feed.html', data={"available_days": available_days})
 
 
     else:
@@ -191,22 +195,26 @@ def add_days_coops(id_):
             if available_days < number_of_days_to_feed:
                 # this is an error, the farmer has entered wrong value
                 flash('Please enter correct data')
-                return render_template('add_coop', data={"available_days": available_days})
+                return redirect('/coop/add_days_to_feed/' + str(coop_instance.id))
 
 
 #     # the logic of calculating days for next feed & feed type
 #     if breed == "layers":
-#         daily_consumption = 110
 #         feed = ""
 #         wmaize = 0
 #         soya = 0
 #         fishm = 0
 #         maizeb = 0
 #         limes = 0
-#
+           # wheat = 0
+           # gnut = 0
+
+#         multiply_by = number_of_days_to_feed * number_of_chickens * daily_consumption
+
+
 #         if age >= 0 <= 28:
 #             "chick mash"
-#             multiply_by = number_of_days_to_feed * number_of_chickens * daily_consumption
+#             daily_consumption = 110
 #             wmaize = (0.5 * multiply_by)
 #             soya = (0.2 * multiply_by)
 #             fishm = (0.1 * multiply_by)
@@ -218,13 +226,22 @@ def add_days_coops(id_):
 #
 #
 #         elif age > 28 <= 119:
-#             "growers mash"
-#             result = wmaize + soya + fishm + maizeb + limes
+#            "growers mash"
+#             daily_consumption = 150
+#             wmaize = (0.5 * multiply_by)
+#             soya = (0.2 * multiply_by)
+#             wheat = (0.3 * multiply_by)
+#             result = wmaize + soya + wheat
 #             feed = "growers mash"
 #
 #         else:
 #             "layers mash"
-#             result = wmaize + soya + fishm + maizeb + limes
+#             daily_consumption = 150
+#             wmaize = (0.3 * multiply_by)
+#             fishm= (0.2 * multiply_by)
+#             wheat = (0.3 * multiply_by)
+#             gnut = (0.2 * multiply_by)
+#             result = wmaize + wheat + fishm +gnut
 #             feed = "layers mash"
 #
 #         print(result)
@@ -338,7 +355,7 @@ def layersall():
 # @login_required
 # def admin_db():
 #     id = current_user.id
-#     if id == 4:
+#     if id == :
 #         return render_template('admin_dashboard.html')
 #     else:
 #         flash("sorry you must be Admin to access this page")
@@ -356,96 +373,44 @@ def admin_db():
     return render_template('/admin_dashboard.html')
 
 
-# @app.route('/coop/createformula', methods=['POST','GET'])
+  
+# @app.route('/calc_result', methods=['POST', 'GET'])
 # @login_required
-# def coop_formula():
-#     result''
-#     whole_maize = ''
-#     fish_meal = ''
-#     wheat bran = ''
-#     wheat_pollard = ''
-#     sunflower_seed = ''
-#     fishmeal = ''
-#     lime = ''
-#     salt = ''
-#     premix = ''
-@app.route('/feedresults')
-@login_required
-def getfeed_results():
-    return render_template('feedresults.html')
-    # id=current_coop.id)
+# def calc_result():  # ~ Route to send calculator form input
+    # error = ''
+    # result = ''
+    # wmaize = ''
+    # soya = ''
+    # fishm = ''
+    # maizeb = ''
+    # limes = ''
 
+    # amount_input = request.form['total']
+    # feed = request.form['feed']
+    # input1 = float(amount_input)
 
-@app.route('/feed/results', methods=['POST', 'GET'])
-def feed_result():
-    wmaize = ''
-    soya = ''
-    fishm = ''
-    maizeb = ''
-    limes = ''
+    # if feed == "layers1":
+        # wmaize = (0.5 * input1)
+        # soya = (0.2 * input1)
+        # fishm = (0.1 * input1)
+        # maizeb = (0.1 * input1)
+        # limes = (0.10 * input1)
+        # result = wmaize + soya + fishm + maizeb + limes
+        # print(result)
+        # # saving the results into database
+        # recipe_instance = Recipe(feed=feed, amount_entered=amount_input, result=result, user_id=current_user.id)
+        # db.session.add(recipe_instance)
+        # db.session.commit()
 
-    # calculate current age
-    days = request.form['days']
-
-
-# if breed == "layers":
-#     if age
-#         daily_consumption = {{coop.number}} * 150
-#     total_consumption = daily_consumption * {{days
-#     to
-#     feed}}
-#     wmaize = (0.5 * input1)
-#     soya = (0.2 * input1)
-#     fishm = (0.1 * input1)
-#     maizeb = (0.1 * input1)
-#     limes = (0.1 * input1)
-#     return render_template('')
-#
-# if age
-#     daily_consumption = {{coop.number}} * 170
-#     wmaize = (0.3 * input1)
-#     soya = (0.2 * input1)
-#     fishm = (0.2 * input1)
-#     maizeb = (0.3 * input1)
-#
-
-@app.route('/calc_result', methods=['POST', 'GET'])
-@login_required
-def calc_result():  # ~ Route to send calculator form input
-    error = ''
-    result = ''
-    wmaize = ''
-    soya = ''
-    fishm = ''
-    maizeb = ''
-    limes = ''
-
-    amount_input = request.form['total']
-    feed = request.form['feed']
-    input1 = float(amount_input)
-
-    if feed == "layers1":
-        wmaize = (0.5 * input1)
-        soya = (0.2 * input1)
-        fishm = (0.1 * input1)
-        maizeb = (0.1 * input1)
-        limes = (0.10 * input1)
-        result = wmaize + soya + fishm + maizeb + limes
-        print(result)
-        # saving the results into database
-        recipe_instance = Recipe(feed=feed, amount_entered=amount_input, result=result, user_id=current_user.id)
-        db.session.add(recipe_instance)
-        db.session.commit()
-
-        return render_template(
-            'layers1.html',
-            input1=input1, feed=feed,
-            wmaize=wmaize,
-            soya=soya,
-            maizeb=maizeb,
-            fishm=fishm,
-            limes=limes,
-            result=result)
+        # return render_template(
+            # 'layers1.html',
+            # input1=input1, feed=feed,
+            # wmaize=wmaize,
+            # soya=soya,
+            # maizeb=maizeb,
+            # fishm=fishm,
+            # limes=limes,
+            # result=result)
 
 
 @app.route('/demo')

@@ -25,27 +25,6 @@ class Recipe(db.Model):
                         nullable=False)
 
 
-# revised class Recipe for all feed calculations
-class FeedRecipe(db.Model):
-    __tablename__ = 'feedrecipe'
-    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    feed = db.Column(db.String(100), nullable=False)
-    days = db.Column(db.Integer, nullable=False)
-    total_feed = db.Column(db.Integer, nullable=False)
-    total_cost = db.Column(db.Integer, nullable=False)
-
-    # Kondwani - make calculations nased on specific coop chosen
-    # Kondwani - update user profile, delete coop
-    # for cost and amount for individual ingredients, make result downloadable
-
-    date_added = db.Column(db.DateTime, default=datetime.now)
-    user_id = db.Column(db.Integer,
-                        db.ForeignKey('users.id', ondelete='CASCADE'),
-                        nullable=False)
-    coop_id = db.Column(db.Integer,
-                        db.ForeignKey('coops.id', ondelete='CASCADE'),
-                        nullable=False)
-
 
 #
 # from flask_wtf import FlaskForm
@@ -97,10 +76,10 @@ class Users(UserMixin, db.Model):
 class Coops(db.Model):
     __tablename__ = 'coops'
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    name = db.Column(db.String(100), nullable=False, unique=True)
+    name = db.Column(db.String(100), nullable=False)
     age = db.Column(db.Integer, nullable=False)
     breed = db.Column(db.String(100), nullable=False)
-    number_of_chicks = db.Column(db.Integer, nullable=False)
+    number_of_chickens = db.Column(db.Integer, nullable=False)
     date_for_next_feed = db.Column(db.DateTime, nullable=True)
     date_added = db.Column(db.DateTime, default=datetime.now)
     user_id = db.Column(db.Integer,
@@ -109,6 +88,4 @@ class Coops(db.Model):
     recipe_object = db.relationship('Recipe', backref='coops', lazy=True, uselist=True,
                                     cascade="all,delete")
 
-    # date
 
-# age= (date_added-current_date)/7 + age
