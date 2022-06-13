@@ -216,7 +216,7 @@ def add_days_coops(id):
             result = wmaize + wheat + fishm + gnut
             feed = "layers mash"
             recipe_instance = Recipe(feed=feed, number_of_days_to_feed=number_of_days_to_feed, result=result,
-                                     user_id=current_user.id)
+                                     user_id=current_user.id, coop_id=coop_instance.id)
             db.session.add(recipe_instance)
             db.session.commit()
             return redirect('/coops/show')
@@ -247,7 +247,7 @@ def add_days_coops(id):
                     result = wmaize + soya + fishm + maizeb + limes
                     feed = "chick mash"
                     recipe_instance = Recipe(feed=feed, number_of_days_to_feed=number_of_days_to_feed, result=result,
-                                             user_id=current_user.id)
+                                             user_id=current_user.id, coop_id=coop_instance.id)
                     db.session.add(recipe_instance)
                     db.session.commit()
 
@@ -269,7 +269,7 @@ def add_days_coops(id):
                     result = wmaize + soya + wheat
                     feed = "growers mash"
                     recipe_instance = Recipe(feed=feed, number_of_days_to_feed=number_of_days_to_feed, result=result,
-                                             user_id=current_user.id)
+                                             user_id=current_user.id, coop_id=coop_instance.id)
                     db.session.add(recipe_instance)
                     db.session.commit()
 
