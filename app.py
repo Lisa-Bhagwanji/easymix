@@ -1,3 +1,4 @@
+import datetime
 import time
 
 # motor
@@ -183,8 +184,13 @@ def add_days_coops(id):
 
         return render_template('number_of_days_to_feed.html', data={"available_days": available_days})
 
-
     else:
+        #  function that upgrades chicks age
+        def upgrade_chicks_age(coop):
+            if coop.date_added < datetime.datetime.today():
+                ""
+                # TODO : getting the actual date passed
+
         # validate if entered days are valid
         number_of_days_to_feed = int(request.form.get('number_of_days_to_feed'))
         if available_days == 200:
@@ -194,6 +200,11 @@ def add_days_coops(id):
 
             # save number of days to feed in the coops
             coop_instance.is_grown = True
+            # saving data for next feed type and date
+            coop_instance.next_feed_type = "They are fully grown chickens"
+            # getting date for next feed generation
+            coop_instance.date_for_next_feed = datetime.datetime.today() + datetime.timedelta(
+                days=number_of_days_to_feed + 1)
 
             # we generate the recipe here  --> layers / finishers
             "layers mash"
@@ -210,7 +221,6 @@ def add_days_coops(id):
             db.session.commit()
             return redirect('/coops/show')
 
-
         else:
             if available_days < number_of_days_to_feed:
                 # this is an error, the farmer has entered wrong value
@@ -222,6 +232,12 @@ def add_days_coops(id):
                     "chick mash"
                     daily_consumption = 110
                     multiply_by = number_of_days_to_feed * coop_instance.number_of_chickens * daily_consumption
+
+                    # saving data for next feed type and date
+                    coop_instance.next_feed_type = "growers mash"
+                    # getting date for next feed generation
+                    coop_instance.date_for_next_feed = datetime.datetime.today() + datetime.timedelta(
+                        days=number_of_days_to_feed + 1)
 
                     wmaize = (0.5 * multiply_by)
                     soya = (0.2 * multiply_by)
@@ -237,11 +253,16 @@ def add_days_coops(id):
 
                     return redirect('/coops/show')
 
-
                 elif coop_instance.age > 28 <= 119:
                     "growers mash"
                     daily_consumption = 150
                     multiply_by = number_of_days_to_feed * coop_instance.number_of_chickens * daily_consumption
+                    # saving data for next feed type and date
+                    coop_instance.next_feed_type = "layers mash"
+                    # getting date for next feed generation
+                    coop_instance.date_for_next_feed = datetime.datetime.today() + datetime.timedelta(
+                        days=number_of_days_to_feed + 1)
+
                     wmaize = (0.5 * multiply_by)
                     soya = (0.2 * multiply_by)
                     wheat = (0.3 * multiply_by)
