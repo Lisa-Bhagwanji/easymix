@@ -147,8 +147,8 @@ def addcoop_post():
 
 
 @app.route('/coop/add_days_to_feed/<int:id>', methods=['GET', 'POST'])
-#def add_days_coops(id_):
-def add_days_coops(id):    
+# def add_days_coops(id_):
+def add_days_coops(id):
     # id  --> auto
     # name  --> supplied
     # age --> supplied
@@ -159,13 +159,12 @@ def add_days_coops(id):
     # date_added --> auto
     # user_id --> auto
     # recipe_object  --> auto
-    
+
     coop_instance = Coops.query.filter_by(id=id).one_or_none()
     # logic to calculate available number of days to feed
     available_days = 0
-    
-    
-    #logic to calculate current age
+
+    # logic to calculate current age
     if coop_instance.breed == "layers":
 
         if coop_instance.age >= 0 <= 28:
@@ -189,13 +188,71 @@ def add_days_coops(id):
         # validate if entered days are valid
         number_of_days_to_feed = int(request.form.get('number_of_days_to_feed'))
         if available_days == 200:
-            # we dont need to validate what the farmer entered
-            pass
+            # getting our daily consumption data and number of chickens
+            daily_consumption = 100
+            multiply_by = number_of_days_to_feed * coop_instance.number_of_chickens * daily_consumption
+
+            # save number of days to feed in the coops
+            coop_instance.is_grown = True
+
+            # we generate the recipe here  --> layers / finishers
+            "layers mash"
+            daily_consumption = 150
+            wmaize = (0.3 * multiply_by)
+            fishm = (0.2 * multiply_by)
+            wheat = (0.3 * multiply_by)
+            gnut = (0.2 * multiply_by)
+            result = wmaize + wheat + fishm + gnut
+            feed = "layers mash"
+            recipe_instance = Recipe(feed=feed, number_of_days_to_feed=number_of_days_to_feed, result=result,
+                                     user_id=current_user.id)
+            db.session.add(recipe_instance)
+            db.session.commit()
+            return redirect('/coops/show')
+
+
         else:
             if available_days < number_of_days_to_feed:
                 # this is an error, the farmer has entered wrong value
                 flash('Please enter correct data')
                 return redirect('/coop/add_days_to_feed/' + str(coop_instance.id))
+            else:
+                # we generate the recipe here --> depends on age whether growers/chick mash
+                if coop_instance.age >= 0 <= 28:
+                    "chick mash"
+                    daily_consumption = 110
+                    multiply_by = number_of_days_to_feed * coop_instance.number_of_chickens * daily_consumption
+
+                    wmaize = (0.5 * multiply_by)
+                    soya = (0.2 * multiply_by)
+                    fishm = (0.1 * multiply_by)
+                    maizeb = (0.1 * multiply_by)
+                    limes = (0.1 * multiply_by)
+                    result = wmaize + soya + fishm + maizeb + limes
+                    feed = "chick mash"
+                    recipe_instance = Recipe(feed=feed, number_of_days_to_feed=number_of_days_to_feed, result=result,
+                                             user_id=current_user.id)
+                    db.session.add(recipe_instance)
+                    db.session.commit()
+
+                    return redirect('/coops/show')
+
+
+                elif coop_instance.age > 28 <= 119:
+                    "growers mash"
+                    daily_consumption = 150
+                    multiply_by = number_of_days_to_feed * coop_instance.number_of_chickens * daily_consumption
+                    wmaize = (0.5 * multiply_by)
+                    soya = (0.2 * multiply_by)
+                    wheat = (0.3 * multiply_by)
+                    result = wmaize + soya + wheat
+                    feed = "growers mash"
+                    recipe_instance = Recipe(feed=feed, number_of_days_to_feed=number_of_days_to_feed, result=result,
+                                             user_id=current_user.id)
+                    db.session.add(recipe_instance)
+                    db.session.commit()
+
+                    return redirect('/coops/show')
 
 
 #     # the logic of calculating days for next feed & feed type
@@ -206,34 +263,12 @@ def add_days_coops(id):
 #         fishm = 0
 #         maizeb = 0
 #         limes = 0
-           # wheat = 0
-           # gnut = 0
+# wheat = 0
+# gnut = 0
 
 #         multiply_by = number_of_days_to_feed * number_of_chickens * daily_consumption
 
 
-#         if age >= 0 <= 28:
-#             "chick mash"
-#             daily_consumption = 110
-#             wmaize = (0.5 * multiply_by)
-#             soya = (0.2 * multiply_by)
-#             fishm = (0.1 * multiply_by)
-#             maizeb = (0.1 * multiply_by)
-#             limes = (0.1 * multiply_by)
-#             result = wmaize + soya + fishm + maizeb + limes
-#             feed = "chick mash"
-#
-#
-#
-#         elif age > 28 <= 119:
-#            "growers mash"
-#             daily_consumption = 150
-#             wmaize = (0.5 * multiply_by)
-#             soya = (0.2 * multiply_by)
-#             wheat = (0.3 * multiply_by)
-#             result = wmaize + soya + wheat
-#             feed = "growers mash"
-#
 #         else:
 #             "layers mash"
 #             daily_consumption = 150
@@ -373,44 +408,43 @@ def admin_db():
     return render_template('/admin_dashboard.html')
 
 
-  
 # @app.route('/calc_result', methods=['POST', 'GET'])
 # @login_required
 # def calc_result():  # ~ Route to send calculator form input
-    # error = ''
-    # result = ''
-    # wmaize = ''
-    # soya = ''
-    # fishm = ''
-    # maizeb = ''
-    # limes = ''
+# error = ''
+# result = ''
+# wmaize = ''
+# soya = ''
+# fishm = ''
+# maizeb = ''
+# limes = ''
 
-    # amount_input = request.form['total']
-    # feed = request.form['feed']
-    # input1 = float(amount_input)
+# amount_input = request.form['total']
+# feed = request.form['feed']
+# input1 = float(amount_input)
 
-    # if feed == "layers1":
-        # wmaize = (0.5 * input1)
-        # soya = (0.2 * input1)
-        # fishm = (0.1 * input1)
-        # maizeb = (0.1 * input1)
-        # limes = (0.10 * input1)
-        # result = wmaize + soya + fishm + maizeb + limes
-        # print(result)
-        # # saving the results into database
-        # recipe_instance = Recipe(feed=feed, amount_entered=amount_input, result=result, user_id=current_user.id)
-        # db.session.add(recipe_instance)
-        # db.session.commit()
+# if feed == "layers1":
+# wmaize = (0.5 * input1)
+# soya = (0.2 * input1)
+# fishm = (0.1 * input1)
+# maizeb = (0.1 * input1)
+# limes = (0.10 * input1)
+# result = wmaize + soya + fishm + maizeb + limes
+# print(result)
+# # saving the results into database
+# recipe_instance = Recipe(feed=feed, amount_entered=amount_input, result=result, user_id=current_user.id)
+# db.session.add(recipe_instance)
+# db.session.commit()
 
-        # return render_template(
-            # 'layers1.html',
-            # input1=input1, feed=feed,
-            # wmaize=wmaize,
-            # soya=soya,
-            # maizeb=maizeb,
-            # fishm=fishm,
-            # limes=limes,
-            # result=result)
+# return render_template(
+# 'layers1.html',
+# input1=input1, feed=feed,
+# wmaize=wmaize,
+# soya=soya,
+# maizeb=maizeb,
+# fishm=fishm,
+# limes=limes,
+# result=result)
 
 
 @app.route('/demo')
