@@ -172,7 +172,7 @@ def add_days_coops(id):
             "chick mash"
             available_days = 28 - coop_instance.age
 
-        elif coop_instance.age > 28 <= 119:
+        elif coop_instance.ageage > 28 <= 119:
             "growers mash"
             available_days = 119 - coop_instance.age
         else:
@@ -180,59 +180,52 @@ def add_days_coops(id):
             available_days = 200
 
     # get the available days for adding feed
-        if flask.request.method == 'GET':
-         return render_template('number_of_days_to_feed.html', data={"available_days": available_days})
+    if flask.request.method == 'GET':
 
-#     else:
-#         #  function that upgrades chicks age
-#         def upgrade_chicks_age(coop):
-#             if coop.date_added < datetime.datetime.today():
-#                 
-#                 
-#                 # TODO : getting the actual date passed
-# 
-#         # validate if entered days are valid
-#              number_of_days_to_feed = int(request.form.get('number_of_days_to_feed'))
-#              if available_days == 200:
-#             # getting our daily consumption data and number of chickens
-#             daily_consumption = 100
-#             multiply_by = number_of_days_to_feed * coop_instance.number_of_chickens * daily_consumption
-# 
-#             # save number of days to feed in the coops
-#             coop_instance.is_grown = True
-#             # saving data for next feed type and date
-#             coop_instance.next_feed_type = "They are fully grown chickens"
-#             # getting date for next feed generation
-#             coop_instance.date_for_next_feed = datetime.datetime.today() + datetime.timedelta(
-#                 days=number_of_days_to_feed + 1)
-# 
-#             # we generate the recipe here  --> layers / finishers
-#             "layers mash"
-#             daily_consumption = 150
-#             wmaize = (0.3 * multiply_by)
-#             fishm = (0.2 * multiply_by)
-#             wheat = (0.3 * multiply_by)
-#             gnut = (0.2 * multiply_by)
-#             result = wmaize + wheat + fishm + gnut
-#             feed = "layers mash"
-#             recipe_instance = Recipe(feed=feed, number_of_days_to_feed=number_of_days_to_feed, result=result,
-#                                      user_id=current_user.id, coop_id=coop_instance.id)
-#             db.session.add(recipe_instance)
-#             db.session.commit()
-#             return redirect('/coops/show')
+        return render_template('number_of_days_to_feed.html', data={"available_days": available_days})
 
-# #                 else:
-# #                     
-# #                 if available_days < number_of_days_to_feed:
-# #                     # this is an error, the farmer has entered wrong value
-# #                     flash('Please enter correct data')
-# #                     return redirect('/coop/add_days_to_feed/' + str(coop_instance.id))
+    else:
+
+        # validate if entered days are valid
+        number_of_days_to_feed = int(request.form.get('number_of_days_to_feed'))
+        if available_days == 200:
+            # getting our daily consumption data and number of chickens
+            daily_consumption = 100
+            multiply_by = number_of_days_to_feed * coop_instance.number_of_chickens * daily_consumption
+
+            # save number of days to feed in the coops
+            coop_instance.is_grown = True
+            # saving data for next feed type and date
+            coop_instance.next_feed_type = "They are fully grown chickens"
+            # getting date for next feed generation
+            coop_instance.date_for_next_feed = datetime.datetime.today() + datetime.timedelta(
+                days=number_of_days_to_feed + 1)
+
+            # we generate the recipe here  --> layers / finishers
+            "layers mash"
+            daily_consumption = 150
+            wmaize = (0.3 * multiply_by)
+            fishm = (0.2 * multiply_by)
+            wheat = (0.3 * multiply_by)
+            gnut = (0.2 * multiply_by)
+            result = wmaize + wheat + fishm + gnut
+            feed = "layers mash"
+            recipe_instance = Recipe(feed=feed, number_of_days_to_feed=number_of_days_to_feed, result=result,
+                                     user_id=current_user.id, coop_id=coop_instance.id)
+            db.session.add(recipe_instance)
+            db.session.commit()
+            return redirect('/coops/show')
+
         else:
+            if available_days < number_of_days_to_feed:
+                # this is an error, the farmer has entered wrong value
+                flash('Please enter correct data')
+                return redirect('/coop/add_days_to_feed/' + str(coop_instance.id))
+            else:
                 # we generate the recipe here --> depends on age whether growers/chick mash
-            if coop_instance.age >= 0 <= 28:
+                if coop_instance.age >= 0 <= 28:
                     "chick mash"
                     daily_consumption = 110
-                    
                     multiply_by = number_of_days_to_feed * coop_instance.number_of_chickens * daily_consumption
 
                     # saving data for next feed type and date
@@ -248,14 +241,14 @@ def add_days_coops(id):
                     limes = (0.1 * multiply_by)
                     result = wmaize + soya + fishm + maizeb + limes
                     feed = "chick mash"
-                    recipe_instance = Recipe(feed=feed, number_of_days_to_feed=number_of_days_to_feed, number_of_chickens=number_of_chickens, result=result,
+                    recipe_instance = Recipe(feed=feed, number_of_days_to_feed=number_of_days_to_feed, result=result,
                                              user_id=current_user.id, coop_id=coop_instance.id)
                     db.session.add(recipe_instance)
                     db.session.commit()
 
                     return redirect('/coops/show')
 
-            elif coop_instance.age > 28 <= 119:
+                elif coop_instance.age > 28 <= 119:
                     "growers mash"
                     daily_consumption = 150
                     multiply_by = number_of_days_to_feed * coop_instance.number_of_chickens * daily_consumption
@@ -363,49 +356,44 @@ def get_mypreviewcoop_data():
 def add_tips():
     return render_template('tips.html')
 
+
 @app.route('/tips_view')
 def display_tips():
     return render_template('tips_view.html')
 
 
-@app.route('/tips/add', methods = ['GET', 'POST'])
+@app.route('/tips/add', methods=['GET', 'POST'])
 def adding_tips():
-    
     if request.method == 'GET':
         return render_template('tips.html')
-    
+
     if request.method == 'POST':
         title = request.form.get('title')
         content = request.form.get('content')
-        
-#         tip = Tips.query.filter_by(
-#         title=title).first()
-#         
-#         if tip:  # if a user is found, we want to redirect back to signup page so user can try again
-#             flash('Tip title already exists')
-#             return redirect('/tips/view')
-        
+
+        #         tip = Tips.query.filter_by(
+        #         title=title).first()
+        #
+        #         if tip:  # if a user is found, we want to redirect back to signup page so user can try again
+        #             flash('Tip title already exists')
+        #             return redirect('/tips/view')
+
         new_tips = Tips(title=title, content=content)
-        
-        
-    # adding new tip to the database
+
+        # adding new tip to the database
         db.session.add(new_tips)
         db.session.commit()
         flash('Tip has been added succesfully')
         return redirect('/tips/view')
-    
-    
 
-    
+
 @app.route('/tips/view')
 def RetrieveTipsList():
     tips_schema = TipsSchema()
-    
+
     all_tips = Tips.query.all()
     tips_data = tips_schema.dump(all_tips)
     return render_template('tips_view.html', data=tips_data)
-
-
 
 
 @app.route('/signup')
