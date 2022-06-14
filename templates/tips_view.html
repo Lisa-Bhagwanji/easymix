@@ -1,0 +1,10 @@
+{% extends 'navbarbase.html' %}
+{% block title %} Tips {% endblock %}
+{% block content %}
+{% for tips in data %}
+<p>Title: {{tips.title}}</p><hr>
+<p>content: {{tips.title}}</p><hr
+<p>Date Added: {{tips.date_added}}</p><hr>
+<p>ID: {{tips.id}}</p><hr>
+{% endfor %}
+{% endblock %}

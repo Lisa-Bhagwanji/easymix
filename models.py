@@ -80,11 +80,25 @@ class Coops(db.Model):
     breed = db.Column(db.String(100), nullable=False)
     number_of_chickens = db.Column(db.Integer, nullable=False)
     date_for_next_feed = db.Column(db.DateTime, nullable=True)
+    
     next_feed_type = db.Column(db.String(100), nullable=True)
-    is_grown = db.Colubm(db.Boolean, default=False)
+    is_grown = db.Column(db.Boolean, default=False)
     date_added = db.Column(db.DateTime, default=datetime.now)
     user_id = db.Column(db.Integer,
                         db.ForeignKey('users.id', ondelete='CASCADE'),
                         nullable=False)
     recipe_object = db.relationship('Recipe', backref='coops', lazy=True, uselist=True,
                                     cascade="all,delete")
+    
+
+class Tips(db.Model):
+    __tablename__='tips'
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    title = db.Column(db.String(100), nullable=False)
+    content = db.Column(db.String(300), nullable=False)
+    date_added = db.Column(db.DateTime, default=datetime.now)
+    #will give this user admin rights
+#     user_id = db.Column(db.Integer,
+#                         db.ForeignKey('users.id', ondelete='CASCADE'),
+#                         nullable=False)
+    
