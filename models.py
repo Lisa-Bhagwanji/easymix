@@ -24,35 +24,6 @@ class Recipe(db.Model):
                         db.ForeignKey('coops.id', ondelete='CASCADE'),
                         nullable=False)
 
-
-#
-# from flask_wtf import FlaskForm
-# from wtforms import StringField
-# from wtforms.validators import DataRequired
-# 
-# class MyForm(FlaskForm):
-#     name = StringField('name', validators=[DataRequired()])
-
-# class Ingredients(db.Model) #ingredients for demo to be managed by admin
-#     __tablename__='ingredients'
-#     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-#     ing_a = db.Column(db.String(100), nullable=False)
-#     ing_b = db.Column(db.String(100), nullable=False)
-#     ing_c = db.Column(db.String(100), nullable=False)
-#     price = db.Column(db.Integer(), nullable=False)
-#     
-#     
-# class Feed(db.Column)
-#     __tablename__='feed'
-#     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-#     days = db.Column(db.Integer(), nullable=False)
-#     total_consumption= db.Column(db.Integer(), nullable=False)
-#     total_cost = db.Column(db.Integer(), nullable=False)
-#    coop_id = db.Column(db.Integer,
-#    db.ForeignKey('coops.id', ondedelete='CASCADE'),
-#  nullable=False)
-#
-#
 class Users(UserMixin, db.Model):
     __tablename__ = 'users'
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)

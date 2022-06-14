@@ -1,24 +1,64 @@
 {% extends "navbarbase.html" %}
 {% block title %} |Displaying Chicken coop| {% endblock %}
 {% block content %}
+
 <h1> Your Coops list: </h1>
 
-<form>
+
+
+
+<form style= "padding-left:150px; padding-right:150px;">
 {% for coops in data %}
 <br/>
 
-<div class="card">
-  <div class="card-body">
-    <h5 class="card-title">{{coops.name}}</h5>
+<div class="card"  style="width: 35rem; padding-bottom:60px;padding-bottom: 30px;"<div>
+    <h5 class="card-header"> {{coops.name}}</h5>
+    <div class="card-body">
+   
     <p class="card-text">ID Chicken coop : {{coops.id}}</p>
     <p class="card-text">Date addeed : {{coops.date_added}}</p>
     <p class="card-text">Breed : {{coops.breed}}</p>
-    <p class="card-text">Number of chickens : {{coops.number}}</p>
-    <p class="card-text">Age : {{coops.age}}</p>
-    <p class="card-text">Number of days to feed: {{coops.number_of_days_to_feed}}</p>
-    
-  </div>
+    <p class="card-text">Number of chickens in your coop: {{coops.number_of_chickens}}</p>
+    <p class="card-text">Age : {{coops.age}} days old</p>
+    <p class="card-text">Suggestion date to produce next feed:{{coops.date_for_next_feed}}</p>
+    <br/>
+    <a href="#" class="btn btn-primary">Go somewhere</a>
+    </div>
+    </br>
+{% endfor %}
+
 </div>
+<br/>
+</form>
+<br/>
+{% endblock %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -66,8 +106,5 @@ print (days//7
     <br/><br/><br/>
 </div>
 -->
-<br/>
-{% endfor %}
-</form>
-<br/>
-{% endblock %}
+
+

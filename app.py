@@ -39,6 +39,9 @@ def load_user(user_id):
 def easyindex():
     return render_template('index.html')
 
+@app.route('/coops')
+def coops():
+    return render_template('coops.html')
 
 @app.route('/profile')
 @login_required
@@ -115,7 +118,10 @@ def add_coop():
 def preview_coop():
     return render_template('Easymix_previewmycoop.html')
 
-
+@app.route('/recipe')
+def viewrecpie():
+    return render_template('recipe.html')
+    
 @app.route('/Easymix_viewmycoop')
 @login_required
 def viewmycoop():
@@ -147,8 +153,10 @@ def addcoop_post():
     return redirect('/coop/add_days_to_feed/' + str(new_coop.id))
 
 
+
 @app.route('/coop/add_days_to_feed/<int:id>', methods=['GET', 'POST'])
-# def add_days_coops(id_):
+
+#for recipe
 def add_days_coops(id):
     # id  --> auto
     # name  --> supplied
@@ -167,14 +175,16 @@ def add_days_coops(id):
 
     # logic to calculate current age
     if coop_instance.breed == "layers":
-
+        
+        
         if coop_instance.age >= 0 <= 28:
-            "chick mash"
-            available_days = 28 - coop_instance.age
-
-        elif coop_instance.ageage > 28 <= 119:
-            "growers mash"
-            available_days = 119 - coop_instance.age
+             "chick mash"
+             available_days = 28 - coop_instance.age
+             
+        elif coop_instance.age >= 28 < 120:
+             "growers mash"
+             available_days = 120 - coop_instance.age
+        
         else:
             "layers mash"
             available_days = 200
@@ -190,7 +200,7 @@ def add_days_coops(id):
         number_of_days_to_feed = int(request.form.get('number_of_days_to_feed'))
         if available_days == 200:
             # getting our daily consumption data and number of chickens
-            daily_consumption = 100
+            daily_consumption = ''
             multiply_by = number_of_days_to_feed * coop_instance.number_of_chickens * daily_consumption
 
             # save number of days to feed in the coops
@@ -214,7 +224,12 @@ def add_days_coops(id):
                                      user_id=current_user.id, coop_id=coop_instance.id)
             db.session.add(recipe_instance)
             db.session.commit()
-            return redirect('/coops/show')
+            # return redirect('/coops/show')
+            return render_template('recipe.html',feed=feed,number_of_days_to_feed=number_of_days_to_feed,
+            result=result, user_id=current_user.id, coop_id=coop_instance.id,
+            wmaize=wmaize, fishm=fishm, wheat=wheat, gnut=gnut
+            )
+            
 
         else:
             if available_days < number_of_days_to_feed:
@@ -248,7 +263,8 @@ def add_days_coops(id):
 
                     return redirect('/coops/show')
 
-                elif coop_instance.age > 28 <= 119:
+
+                elif coop_instance.age > 29 <= 119:
                     "growers mash"
                     daily_consumption = 150
                     multiply_by = number_of_days_to_feed * coop_instance.number_of_chickens * daily_consumption
@@ -271,39 +287,6 @@ def add_days_coops(id):
                     return redirect('/coops/show')
 
 
-#     # the logic of calculating days for next feed & feed type
-#     if breed == "layers":
-#         feed = ""
-#         wmaize = 0
-#         soya = 0
-#         fishm = 0
-#         maizeb = 0
-#         limes = 0
-# wheat = 0
-# gnut = 0
-
-#         multiply_by = number_of_days_to_feed * number_of_chickens * daily_consumption
-
-
-#         else:
-#             "layers mash"
-#             daily_consumption = 150
-#             wmaize = (0.3 * multiply_by)
-#             fishm= (0.2 * multiply_by)
-#             wheat = (0.3 * multiply_by)
-#             gnut = (0.2 * multiply_by)
-#             result = wmaize + wheat + fishm +gnut
-#             feed = "layers mash"
-#
-#         print(result)
-#         # saving the results into database
-#         recipe_instance = Recipe(feed=feed, number_of_days_to_feed=" ", result=result, user_id=current_user.id)
-#         db.session.add(recipe_instance)
-#         db.session.commit()
-#
-#     # push to database
-#
-#
 # #     coop = Coops.query.filter_by(
 # #         name=name).first()
 # #

@@ -15,7 +15,7 @@
 <form method = "post" action="" id="coops_form">
     
     <input type="integer" placeholder="Number of days to feed your coop" name ="number_of_days_to_feed" ><br>
-    <!--add limit for number of days to feed-->
+  
     <br>
     {% if data.available_days == 200 %}
     <p>You can generate infinite feed</p>
@@ -24,13 +24,25 @@
     <p> you can generate feed for {{data.available_days}} days only</p>
     {% endif %}
     
-    <input class="btn btn-outline-warning " type="submit"  value="Add Chicken Coop"> 
+
+ <!--   <input class="btn btn-outline-warning " type="submit"  value="Add Chicken Coop"> 
+ shiw recpipe belwo
+    
+<a href="/coops/show" class="btn btn-outline-dark " role="button">
+			    My chicken coops
+    </a>
+-->
+    <a href="/coop/add_days_to_feed/<int:id>" class="btn btn-outline-dark " role="button">
+			    results
+    </a>
+    
+    <a href="/recipe" class="btn btn-outline-dark " role="button"> Continue to Recipe</a>
+			    
+   
+
 </form>
 
 
-<a href="/coops/show" class="btn btn-outline-dark " role="button">
-			    My chicken coops
-</a>
 
 
 </div>
