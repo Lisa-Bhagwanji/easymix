@@ -1,6 +1,6 @@
 from flask_marshmallow import Marshmallow
 
-from .models import Recipe, Coops
+from .models import Recipe, Coops, Ingredients, Tips
 
 ma = Marshmallow()
 
@@ -25,6 +25,22 @@ class RecipeSchema(ma.Schema):
     category = ma.Nested(CoopsSchema)
 
 
+class IngredientsSchema(ma.Schema):
+    class Meta:
+        model = Ingredients
+        fields = ("id", "wmaize", "soya", "fishm", "maizeb", "limes", "wheat")  # " user_id ")
+
+
+class RecipeIngredientsSchema(ma.Schema):
+    class Meta:
+        model = Recipe
+        # Fields to expose
+
+        fields = ("id", "feed", "number_of_days_to feed", "result", "ingredients")  # " user_id ")
+
+    ingredients = ma.Nested(IngredientsSchema)
+
+
 class ProfileSchema(ma.Schema):
     class Meta:
         # fields to expose for current user profile
@@ -33,4 +49,5 @@ class ProfileSchema(ma.Schema):
 
 class TipsSchema(ma.Schema):
     class Meta:
+        model = Tips
         fields = ("title", "id", "content", "date_added")

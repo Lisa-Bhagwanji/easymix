@@ -1,8 +1,7 @@
 import datetime
-import time
 
 # motor
-import RPi.GPIO as GPIO
+# import RPi.GPIO as GPIO
 import flask
 from flask import Flask
 from flask import render_template, request, redirect, url_for, flash
@@ -11,10 +10,10 @@ from flask_login import login_required
 from flask_migrate import Migrate
 from werkzeug.security import generate_password_hash, check_password_hash
 
-GPIO.setmode(GPIO.BOARD)
+from .models import db, Users, Recipe, Coops, Tips, Ingredients
+from .schema import RecipeSchema, CoopsSchema, TipsSchema, ma, RecipeIngredientsSchema
 
-from .models import db, Users, Recipe, Coops, Tips
-from .schema import RecipeSchema, CoopsSchema, TipsSchema, ma
+# GPIO.setmode(GPIO.BOARD)
 
 app = Flask(__name__, template_folder='templates')
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///easymixdb.sqlite'
@@ -129,7 +128,17 @@ def view_recpie(coop_id):
 
     return render_template('recipe.html',
                            data=result)
-    return render_template('recipe.html')
+
+
+@app.route('/recipe/detail/<int:id>')
+def detailed_recipe(id):
+    # get all the recipes attached to a specific coop
+    recipe_instance = Recipe.query.filter_by(id=id).one_or_none()
+    schema = RecipeIngredientsSchema()
+    result = schema.dump(recipe_instance, many=False)
+
+    return render_template('detailed_recipe.html',
+                           data=result)
 
 
 @app.route('/Easymix_viewmycoop')
@@ -233,7 +242,6 @@ def add_days_coops(id):
             db.session.commit()
             return redirect('/coops/show')
 
-
         else:
             if available_days < number_of_days_to_feed:
                 # this is an error, the farmer has entered wrong value
@@ -262,10 +270,15 @@ def add_days_coops(id):
                     recipe_instance = Recipe(feed=feed, number_of_days_to_feed=number_of_days_to_feed,
                                              result=result,
                                              user_id=current_user.id, coop_id=coop_instance.id)
+                    # make sure u have this code before adding one-to-one relationships
                     db.session.add(recipe_instance)
+                    db.session.flush()
+                    ingredients_instance = Ingredients(wmaize=wmaize, soya=soya, fishm=fishm, maizeb=maizeb,
+                                                       limes=limes, recipe_id=recipe_instance.id)
+                    db.session.add(ingredients_instance)
                     db.session.commit()
 
-                    return redirect('/coops/show')
+                    return redirect('/recipe/detail/' + str(recipe_instance.id))
 
 
                 elif coop_instance.age > 29 <= 119:
@@ -342,9 +355,9 @@ def get_mypreviewcoop_data():
 #     )
 
 
-@app.route('/tips/view')
-def display_tips():
-    return render_template('tipsview.html')
+# @app.route('/tips/view')
+# def display_tips():
+#     return render_template('tipsview.html')
 
 
 @app.route('/tips/add', methods=['GET', 'POST'])
@@ -377,10 +390,10 @@ def tips_list():
     tips_schema = TipsSchema()
 
     all_tips = Tips.query.all()
-    tips_data = tips_schema.dump(all_tips)
+    tips_data = tips_schema.dump(all_tips, many=True)
 
     return render_template(
-        'tipsview.html',
+        'tips_view.html',
         data=tips_data
     )
 
@@ -499,73 +512,73 @@ def demo():
     return render_template('demo.html')
 
 
-@app.route('/demo_calc', methods=['POST', 'GET'])
-def demo_calc():
-    ufa = ''  # feed A
-    soya = ''  # feed B
-
-    amount_input = request.form['total']
-    feed = request.form['feed']
-    input1 = float(amount_input)
-    if feed == "demo":
-        ufa = (
-                0.5 * input1)  # ufa,soya,fishmeal answer will be stored in db, create a demo db with fields for these three
-        soya = (0.3 * input1)
-        fishmeal = (0.2 * input1)
-
-    motor1 = [7, 11, 13, 15]  # first motor pins defined
-    motor2 = [29, 31, 33, 35]
-
-    # for motor 1 ufa
-    for pin in motor1:
-        GPIO.setup(pin, GPIO.OUT)
-        GPIO.output(pin, 0)
-    halfstep_seq = [
-        [1, 0, 0, 0],
-        [1, 1, 0, 0],
-        [0, 1, 0, 0],
-        [0, 1, 1, 0],
-        [0, 0, 1, 0],
-        [0, 0, 1, 1],
-        [0, 0, 0, 1],
-        [1, 0, 0, 1]
-    ]
-
-    for i in range(int(512 * ufa)):  # rotating for feed A
-        for halfstep in range(8):
-            for pin in range(4):
-                GPIO.output(motor1[pin], halfstep_seq[halfstep][pin])
-                time.sleep(0.001)
-    # GPIO.cleanup()
-
-    # for motor 1 end
-
-    # motor 2
-    for pin in motor2:
-        GPIO.setup(pin, GPIO.OUT)
-        GPIO.output(pin, 0)
-
-    for i in range(int(512 * soya)):  # rotating for feed A
-        for halfstep in range(8):
-            for pin in range(4):
-                GPIO.output(motor2[pin], halfstep_seq[halfstep][pin])
-                time.sleep(0.001)
-
-    for pin in motor3:
-        GPIO.setup(pin, GPIO.OUT)
-        GPIO.output(pin, 0)
-
-    for i in range(int(512 * fishmeal)):  # rotating for feed A
-        for halfstep in range(8):
-            for pin in range(4):
-                GPIO.output(motor3[pin], halfstep_seq[halfstep][pin])
-                time.sleep(0.001)
-    GPIO.cleanup()
-
-    return render_template(
-        'demo_result.html',
-        input1=input1, feed=feed,
-        ufa=ufa, soya=soya, fishmeal=fishmeal)
+# @app.route('/demo_calc', methods=['POST', 'GET'])
+# def demo_calc():
+#     ufa = ''  # feed A
+#     soya = ''  # feed B
+#
+#     amount_input = request.form['total']
+#     feed = request.form['feed']
+#     input1 = float(amount_input)
+#     if feed == "demo":
+#         ufa = (
+#                 0.5 * input1)  # ufa,soya,fishmeal answer will be stored in db, create a demo db with fields for these three
+#         soya = (0.3 * input1)
+#         fishmeal = (0.2 * input1)
+#
+#     motor1 = [7, 11, 13, 15]  # first motor pins defined
+#     motor2 = [29, 31, 33, 35]
+#
+#     # for motor 1 ufa
+#     for pin in motor1:
+#         GPIO.setup(pin, GPIO.OUT)
+#         GPIO.output(pin, 0)
+#     halfstep_seq = [
+#         [1, 0, 0, 0],
+#         [1, 1, 0, 0],
+#         [0, 1, 0, 0],
+#         [0, 1, 1, 0],
+#         [0, 0, 1, 0],
+#         [0, 0, 1, 1],
+#         [0, 0, 0, 1],
+#         [1, 0, 0, 1]
+#     ]
+#
+#     for i in range(int(512 * ufa)):  # rotating for feed A
+#         for halfstep in range(8):
+#             for pin in range(4):
+#                 GPIO.output(motor1[pin], halfstep_seq[halfstep][pin])
+#                 time.sleep(0.001)
+#     # GPIO.cleanup()
+#
+#     # for motor 1 end
+#
+#     # motor 2
+#     for pin in motor2:
+#         GPIO.setup(pin, GPIO.OUT)
+#         GPIO.output(pin, 0)
+#
+#     for i in range(int(512 * soya)):  # rotating for feed A
+#         for halfstep in range(8):
+#             for pin in range(4):
+#                 GPIO.output(motor2[pin], halfstep_seq[halfstep][pin])
+#                 time.sleep(0.001)
+#
+#     for pin in motor3:
+#         GPIO.setup(pin, GPIO.OUT)
+#         GPIO.output(pin, 0)
+#
+#     for i in range(int(512 * fishmeal)):  # rotating for feed A
+#         for halfstep in range(8):
+#             for pin in range(4):
+#                 GPIO.output(motor3[pin], halfstep_seq[halfstep][pin])
+#                 time.sleep(0.001)
+#     GPIO.cleanup()
+#
+#     return render_template(
+#         'demo_result.html',
+#         input1=input1, feed=feed,
+#         ufa=ufa, soya=soya, fishmeal=fishmeal)
 
 
 @app.route('/user/results', methods=['POST', 'GET'])

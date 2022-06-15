@@ -23,6 +23,7 @@ class Recipe(db.Model):
     coop_id = db.Column(db.Integer,
                         db.ForeignKey('coops.id', ondelete='CASCADE'),
                         nullable=False)
+    ingredients = db.relationship("Ingredients", uselist=False, backref="ingredients", cascade="all,delete")
 
 
 #
@@ -33,13 +34,7 @@ class Recipe(db.Model):
 # class MyForm(FlaskForm):
 #     name = StringField('name', validators=[DataRequired()])
 
-# class Ingredients(db.Model) #ingredients for demo to be managed by admin
-#     __tablename__='ingredients'
-#     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-#     ing_a = db.Column(db.String(100), nullable=False)
-#     ing_b = db.Column(db.String(100), nullable=False)
-#     ing_c = db.Column(db.String(100), nullable=False)
-#     price = db.Column(db.Integer(), nullable=False)
+
 #     
 #     
 # class Feed(db.Column)
@@ -74,6 +69,19 @@ class Users(UserMixin, db.Model):
     # class UsersForm(FlaskForm): for form validation and etc
 
 
+class Ingredients(db.Model):
+    __tablename__ = 'ingredients'
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    wmaize = db.Column(db.Integer(), nullable=True)
+    soya = db.Column(db.Integer(), nullable=True)
+    fishm = db.Column(db.Integer(), nullable=True)
+    maizeb = db.Column(db.Integer(), nullable=True)
+    limes = db.Column(db.Integer(), nullable=True)
+    wheat = db.Column(db.Integer(), nullable=True)
+    # one-to-one relationship with the recipe model
+    recipe_id = db.Column(db.Integer, db.ForeignKey('recipe.id', ondelete='CASCADE'), nullable=False)
+
+
 class Coops(db.Model):
     __tablename__ = 'coops'
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
@@ -84,7 +92,7 @@ class Coops(db.Model):
     date_for_next_feed = db.Column(db.DateTime, nullable=True)
     next_feed_type = db.Column(db.String(100), nullable=True)
     is_grown = db.Column(db.Boolean, default=False)
-    number = db.Column(db.Integer, nullable=False)
+    # number = db.Column(db.Integer, nullable=False)
     date_added = db.Column(db.DateTime, default=datetime.now)
     user_id = db.Column(db.Integer,
                         db.ForeignKey('users.id', ondelete='CASCADE'),
