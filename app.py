@@ -39,9 +39,11 @@ def load_user(user_id):
 def easyindex():
     return render_template('index.html')
 
+
 @app.route('/coops')
 def coops():
     return render_template('coops.html')
+
 
 @app.route('/profile')
 @login_required
@@ -113,15 +115,23 @@ def add_coop():
     return render_template('add_coop.html')
 
 
-@app.route('/Easymix_previewmycoop')
-@login_required
-def preview_coop():
-    return render_template('Easymix_previewmycoop.html')
+# @app.route('/Easymix_previewmycoop')
+# @login_required
+# def preview_coop():
+# return render_template('Easymix_previewmycoop.html')
 
-@app.route('/recipe')
-def viewrecpie():
+@app.route('/recipe/<int:coop_id>')
+def view_recpie(coop_id):
+    # get all the recipes attached to a specific coop
+    recipe_instance = Recipe.query.filter_by(coop_id=coop_id).all()
+    schema = RecipeSchema()
+    result = schema.dump(recipe_instance, many=True)
+
+    return render_template('recipe.html',
+                           data=result)
     return render_template('recipe.html')
-    
+
+
 @app.route('/Easymix_viewmycoop')
 @login_required
 def viewmycoop():
@@ -153,10 +163,8 @@ def addcoop_post():
     return redirect('/coop/add_days_to_feed/' + str(new_coop.id))
 
 
-
 @app.route('/coop/add_days_to_feed/<int:id>', methods=['GET', 'POST'])
-
-#for recipe
+# for recipe
 def add_days_coops(id):
     # id  --> auto
     # name  --> supplied
@@ -175,16 +183,15 @@ def add_days_coops(id):
 
     # logic to calculate current age
     if coop_instance.breed == "layers":
-        
-        
+
         if coop_instance.age >= 0 <= 28:
-             "chick mash"
-             available_days = 28 - coop_instance.age
-             
+            "chick mash"
+            available_days = 28 - coop_instance.age
+
         elif coop_instance.age >= 28 < 120:
-             "growers mash"
-             available_days = 120 - coop_instance.age
-        
+            "growers mash"
+            available_days = 120 - coop_instance.age
+
         else:
             "layers mash"
             available_days = 200
@@ -224,12 +231,8 @@ def add_days_coops(id):
                                      user_id=current_user.id, coop_id=coop_instance.id)
             db.session.add(recipe_instance)
             db.session.commit()
-            # return redirect('/coops/show')
-            return render_template('recipe.html',feed=feed,number_of_days_to_feed=number_of_days_to_feed,
-            result=result, user_id=current_user.id, coop_id=coop_instance.id,
-            wmaize=wmaize, fishm=fishm, wheat=wheat, gnut=gnut
-            )
-            
+            return redirect('/coops/show')
+
 
         else:
             if available_days < number_of_days_to_feed:
@@ -256,7 +259,8 @@ def add_days_coops(id):
                     limes = (0.1 * multiply_by)
                     result = wmaize + soya + fishm + maizeb + limes
                     feed = "chick mash"
-                    recipe_instance = Recipe(feed=feed, number_of_days_to_feed=number_of_days_to_feed, result=result,
+                    recipe_instance = Recipe(feed=feed, number_of_days_to_feed=number_of_days_to_feed,
+                                             result=result,
                                              user_id=current_user.id, coop_id=coop_instance.id)
                     db.session.add(recipe_instance)
                     db.session.commit()
@@ -279,7 +283,8 @@ def add_days_coops(id):
                     wheat = (0.3 * multiply_by)
                     result = wmaize + soya + wheat
                     feed = "growers mash"
-                    recipe_instance = Recipe(feed=feed, number_of_days_to_feed=number_of_days_to_feed, result=result,
+                    recipe_instance = Recipe(feed=feed, number_of_days_to_feed=number_of_days_to_feed,
+                                             result=result,
                                              user_id=current_user.id, coop_id=coop_instance.id)
                     db.session.add(recipe_instance)
                     db.session.commit()
@@ -335,14 +340,11 @@ def get_mypreviewcoop_data():
 #         'Easymix_viewmycoop.html',
 #         data=mycoop_view
 #     )
-@app.route('/tips')
-def add_tips():
-    return render_template('tips.html')
 
 
-@app.route('/tips_view')
+@app.route('/tips/view')
 def display_tips():
-    return render_template('tips_view.html')
+    return render_template('tipsview.html')
 
 
 @app.route('/tips/add', methods=['GET', 'POST'])
@@ -354,12 +356,12 @@ def adding_tips():
         title = request.form.get('title')
         content = request.form.get('content')
 
-        #         tip = Tips.query.filter_by(
-        #         title=title).first()
-        #
-        #         if tip:  # if a user is found, we want to redirect back to signup page so user can try again
-        #             flash('Tip title already exists')
-        #             return redirect('/tips/view')
+        tip = Tips.query.filter_by(
+            title=title).first()
+
+        if tip:  # if a user is found, we want to redirect back to signup page so user can try again
+            flash('Tip title already exists')
+            return redirect('/tips/add')
 
         new_tips = Tips(title=title, content=content)
 
@@ -370,13 +372,17 @@ def adding_tips():
         return redirect('/tips/view')
 
 
-@app.route('/tips/view')
-def RetrieveTipsList():
+@app.route('/tips/view', methods=['POST', 'GET'])
+def tips_list():
     tips_schema = TipsSchema()
 
     all_tips = Tips.query.all()
     tips_data = tips_schema.dump(all_tips)
-    return render_template('tips_view.html', data=tips_data)
+
+    return render_template(
+        'tipsview.html',
+        data=tips_data
+    )
 
 
 @app.route('/signup')
@@ -505,7 +511,7 @@ def demo_calc():
         ufa = (
                 0.5 * input1)  # ufa,soya,fishmeal answer will be stored in db, create a demo db with fields for these three
         soya = (0.3 * input1)
-        # fishmeal = (0.2*input1)
+        fishmeal = (0.2 * input1)
 
     motor1 = [7, 11, 13, 15]  # first motor pins defined
     motor2 = [29, 31, 33, 35]
@@ -544,14 +550,22 @@ def demo_calc():
             for pin in range(4):
                 GPIO.output(motor2[pin], halfstep_seq[halfstep][pin])
                 time.sleep(0.001)
-    GPIO.cleanup()
 
-    # motor2 end
+    for pin in motor3:
+        GPIO.setup(pin, GPIO.OUT)
+        GPIO.output(pin, 0)
+
+    for i in range(int(512 * fishmeal)):  # rotating for feed A
+        for halfstep in range(8):
+            for pin in range(4):
+                GPIO.output(motor3[pin], halfstep_seq[halfstep][pin])
+                time.sleep(0.001)
+    GPIO.cleanup()
 
     return render_template(
         'demo_result.html',
         input1=input1, feed=feed,
-        ufa=ufa, soya=soya)
+        ufa=ufa, soya=soya, fishmeal=fishmeal)
 
 
 @app.route('/user/results', methods=['POST', 'GET'])
